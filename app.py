@@ -275,8 +275,43 @@ with col4:
 st.divider()
 
 # =====================================================================
-# 6. GRÁFICOS Y TABLA DE DESCARGA
+# 6. GRÁFICOS, MAPA Y TABLA DE DESCARGA
 # =====================================================================
+st.subheader("📍 Mapa de Impacto: Tu Local vs Eventos")
+st.markdown("Visualiza la distancia real entre tu negocio y los focos de ocio de la ciudad.")
+
+if not df_eventos_geo.empty and coords_restaurante:
+    # Preparo el punto del restaurante
+    df_restaurante = pd.DataFrame({
+        'Latitud': [coords_restaurante[0]],
+        'Longitud': [coords_restaurante[1]],
+        'Nombre': ['TÚ ESTÁS AQUÍ'],
+        'Tipo': ['Tu Local'],
+        'Tamaño': [15]
+    })
+    
+    # Preparo los puntos de los eventos
+    df_eventos_mapa = df_eventos_geo.copy()
+    df_eventos_mapa['Nombre'] = df_eventos_mapa['Nombre_Evento'] + " (" + df_eventos_mapa['Fecha'] + ")"
+    df_eventos_mapa['Tipo'] = 'Evento Cercano'
+    df_eventos_mapa['Tamaño'] = [10] * len(df_eventos_mapa)
+    
+    # Uno ambos datos y los pinto en un mapa interactivo de Plotly
+    df_mapa_total = pd.concat([df_restaurante, df_eventos_mapa[['Latitud', 'Longitud', 'Nombre', 'Tipo', 'Tamaño']]])
+    
+    fig_mapa = px.scatter_mapbox(
+        df_mapa_total, lat="Latitud", lon="Longitud", hover_name="Nombre", 
+        color="Tipo", size="Tamaño",
+        color_discrete_map={'Tu Local': '#2C3E50', 'Evento Cercano': '#E67E22'},
+        zoom=13, height=450
+    )
+    fig_mapa.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0}, legend_title_text='Leyenda')
+    st.plotly_chart(fig_mapa, use_container_width=True)
+else:
+    st.info("No hay eventos masivos detectados esta semana en la ciudad.")
+
+st.divider()
+
 st.subheader("📉 ¿De dónde vendrán tus clientes?")
 fig = px.bar(
     df_visual, x='Fecha_str', y=['Pax_Interior', 'Pax_Terraza', 'Pax_Delivery'],
@@ -312,7 +347,7 @@ st.divider()
 # =====================================================================
 with st.expander("📖 Guía de uso y Preguntas Frecuentes"):
     st.markdown("""
-    ### ⚙️ Sobre la Configuración (Glosario)
+    ### ⚙️ Sobre la Configuración
     * **Rotación (Turnos):** Es cuántas veces se sienta alguien distinto en la misma silla durante el día. Si abres solo para cenar, pon `1.0`. Si ofreces comidas y cenas a buen ritmo, pon `2.0` o `3.0`. El sistema usa esto para saber el tope de clientes que caben por tu puerta al día.
     * **Tipo de Negocio:** No vende lo mismo un restaurante que un bar. Si eliges *Bar de Copas*, el sistema sabrá que tus viernes y sábados son vitales. Si eliges *Cafetería*, le dará más peso a las mañanas de fin de semana.
     * **Nota en Google y Locales Cercanos:** Si tu calle está llena de bares, los clientes se repartirán. Pero si tienes un 4.8 en Google, la fórmula asume que atraerás más clientes que tus competidores.
