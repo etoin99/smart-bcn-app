@@ -1,0 +1,8 @@
+Fecha,Fecha_str,Lluvia_mm,Viento_kmh,Evento_Especial,Decision_Operativa,Clientes_Esperados
+2026-03-10,2026-03-10,0.0,10.9,1,🟢 Terraza Abierta,159
+2026-03-11,2026-03-11,0.0,14.5,1,🟢 Terraza Abierta,208
+2026-03-12,2026-03-12,0.0,12.3,0,🟢 Terraza Abierta,154
+2026-03-13,2026-03-13,0.0,18.2,0,🟢 Terraza Abierta,243
+2026-03-14,2026-03-14,15.3,24.2,0,🔴 CERRAR TERRAZA,312
+2026-03-15,2026-03-15,0.0,7.7,0,🟢 Terraza Abierta,266
+2026-03-16,2026-03-16,0.0,15.4,0,🟢 Terraza Abierta,121
