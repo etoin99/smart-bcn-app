@@ -360,4 +360,4 @@ with st.expander("📖 Guía de uso y Preguntas Frecuentes"):
     **¿Qué es la 'Ganancia Extra Potencial'?** Hay días en los que el sistema detecta que vas a llenar tu local seguro (porque hay un evento o es festivo). En esos días de "Alta Ocupación", te sugerimos aplicar técnicas comunes: por ejemplo, ofrecer solo platos de la carta en vez del menú del día. Ese número es lo que ganarías extra si logras que cada cliente gaste un poco más.
     """)
 
-st.caption("🎓 Proyecto Final v1.6.5 - SMART-BCN hecho por etoin99")
+st.caption("🎓 Proyecto Final v1.6.6 - SMART-BCN hecho por etoin99")
